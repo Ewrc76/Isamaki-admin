@@ -1,14 +1,20 @@
 {
-  "name": "CNE Perú Expert",
-  "short_name": "CNE Expert",
+  "name": "CNE Expert Pro - Asistente Eléctrico",
+  "short_name": "CNE Pro",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0f172a",
-  "theme_color": "#0284c7",
-  "description": "Herramienta de cálculo eléctrico para Perú según CNE.",
+  "theme_color": "#f59e0b",
+  "description": "Asistente técnico de ingeniería eléctrica para Perú según el CNE e IEC",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/2983/2983780.png",
+      "src": "https://cdn-icons-png.flaticon.com/512/3109/3109813.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3109/3109813.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
