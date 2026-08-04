@@ -3,295 +3,409 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CNE Perú - Ingeniería Eléctrica APK</title>
+  <title>CNE Expert Pro - Asistente Eléctrico</title>
+  <link rel="manifest" href="manifest.json">
   <script src="https://cdn.tailwindcss.com"></script>
-<link rel="manifest" href="manifest.json">
+  <style>
+    body { background-color: #0f172a; color: #f8fafc; font-family: system-ui, sans-serif; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 0.75rem; padding: 1.25rem; }
+    input, select { background: #0f172a; border: 1px solid #475569; color: #f8fafc; padding: 0.5rem; border-radius: 0.375rem; width: 100%; }
+    label { font-size: 0.875rem; color: #94a3b8; font-weight: 600; display: block; margin-bottom: 0.25rem; }
+  </style>
 </head>
-<body class="bg-slate-900 text-slate-100 font-sans pb-10">
+<body class="p-4 max-w-5xl mx-auto">
 
-  <!-- Encabezado Móvil -->
-  <header class="bg-slate-800 border-b border-sky-500 p-4 sticky top-0 z-50 flex justify-between items-center shadow-lg">
-    <div>
-      <h1 class="text-lg font-bold text-sky-400">⚡ CNE PERÚ EXPERT</h1>
-      <p class="text-xs text-slate-400">Instalaciones Domiciliarias e Industriales</p>
+  <!-- ENCABEZADO -->
+  <header class="flex items-center justify-between pb-6 border-b border-slate-700 mb-6">
+    <div class="flex items-center gap-3">
+      <div class="bg-amber-500 p-3 rounded-xl text-slate-950 font-bold text-xl">⚡</div>
+      <div>
+        <h1 class="text-2xl font-bold text-amber-400">CNE Expert Pro</h1>
+        <p class="text-xs text-slate-400">Asistente Técnico Eléctrico según CNE Perú & IEC</p>
+      </div>
     </div>
-    <span class="bg-sky-600 text-white text-[10px] px-2 py-1 rounded font-bold">OFFLINE</span>
+    <div class="text-right text-xs text-slate-400">
+      <span>Red: 220V Bifásica / Trifásica</span><br>
+      <span class="text-emerald-400">● Modo Offline Activo</span>
+    </div>
   </header>
 
-  <!-- Navegador de Pestañas -->
-  <div class="flex bg-slate-800 text-xs border-b border-slate-700">
-    <button onclick="cambiarTab('domiciliario')" id="tab-domiciliario" class="flex-1 py-3 text-center font-bold border-b-2 border-sky-400 text-sky-400">🏠 DOMICILIARIO</button>
-    <button onclick="cambiarTab('caida')" id="tab-caida" class="flex-1 py-3 text-center font-bold text-slate-400 border-b-2 border-transparent">📏 CAÍDA TENSIÓN</button>
-    <button onclick="cambiarTab('motores')" id="tab-motores" class="flex-1 py-3 text-center font-bold text-slate-400 border-b-2 border-transparent">⚙️ MOTORES $3\phi$</button>
+  <!-- NAVEGACIÓN POR PESTAÑAS -->
+  <div class="flex gap-2 border-b border-slate-700 mb-6 overflow-x-auto pb-2">
+    <button onclick="showTab('cargas')" id="tab-cargas" class="px-4 py-2 bg-amber-500 text-slate-950 font-bold rounded-lg text-sm">Cargas & Cuadro CNE</button>
+    <button onclick="showTab('proteccion')" id="tab-proteccion" class="px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-lg text-sm">Calculadora de Circuito</button>
+    <button onclick="showTab('iluminacion')" id="tab-iluminacion" class="px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-lg text-sm">Luminotecnia</button>
+    <button onclick="showTab('asistente')" id="tab-asistente" class="px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-lg text-sm">Esquemas & Guías</button>
   </div>
 
-  <main class="p-4 max-w-md mx-auto">
-
-    <!-- SECCIÓN 1: CUADRO DE CARGAS DOMICILIARIO -->
-    <section id="sec-domiciliario" class="space-y-4">
-      <h2 class="text-sm font-bold text-sky-400 uppercase tracking-wide border-l-2 border-sky-400 pl-2">Cuadro de Cargas Domiciliario (CNE)</h2>
-
-      <div class="bg-slate-800 p-3 rounded-lg border border-slate-700 space-y-3">
+  <!-- SECCIÓN 1: CUADRO DE CARGAS Y CONSUMO MONETARIO -->
+  <div id="sec-cargas" class="space-y-6">
+    <div class="card">
+      <h2 class="text-lg font-bold text-amber-400 mb-4">1. Registro de Cargas Residenciales / Comerciales</h2>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
         <div>
-          <label class="block text-xs text-slate-300 mb-1">Área Construida ($m^2$):</label>
-          <input type="number" id="dom_area" value="120" class="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white focus:border-sky-400 outline-none">
-        </div>
-
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block text-xs text-slate-300 mb-1">Cocina Eléctrica (W):</label>
-            <input type="number" id="dom_cocina" value="6000" class="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white">
-          </div>
-          <div>
-            <label class="block text-xs text-slate-300 mb-1">Therma Agua (W):</label>
-            <input type="number" id="dom_therma" value="1500" class="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white">
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-xs text-slate-300 mb-1">Electrobomba de Agua (HP):</label>
-          <input type="number" step="0.25" id="dom_bomba" value="0.75" class="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white">
-        </div>
-
-        <button onclick="calcularDomiciliario()" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-2 rounded text-sm transition">CALCULAR CUADRO DE CARGAS</button>
-      </div>
-
-      <!-- Resultado Domiciliario -->
-      <div id="res_domiciliario" class="hidden bg-slate-800 p-4 rounded-lg border border-sky-500/30 space-y-2 text-xs">
-        <h3 class="font-bold text-sky-400 text-sm border-b border-slate-700 pb-1">RESULTADOS DE ACOMETIDA RESIDENCIAL</h3>
-        <p>Carga Total Instalada (CI): <span id="out_ci" class="font-mono font-bold text-white">0 W</span></p>
-        <p>Máxima Demanda (MD): <span id="out_md" class="font-mono font-bold text-amber-400">0 W</span></p>
-        <p>Corriente Nominal Acometida ($220V, 1\phi$): <span id="out_in_dom" class="font-mono font-bold text-emerald-400">0 A</span></p>
-        <p>Suministro Recomenado: <span id="out_suministro" class="font-bold text-sky-300">-</span></p>
-        <p>Llave General ITM Sugerida: <span id="out_itm_dom" class="font-mono font-bold text-white">-</span></p>
-        <p>Protección Diferencial Acometida: <span class="font-bold text-white">RCD 300 mA (Clase AC/A)</span></p>
-        <p>Diferenciales en Derivados: <span class="font-bold text-red-400">RCD 30 mA OBLIGATORIO</span></p>
-      </div>
-    </section>
-
-    <!-- SECCIÓN 2: CAÍDA DE TENSIÓN Y CONDUCTORES -->
-    <section id="sec-caida" class="space-y-4 hidden">
-      <h2 class="text-sm font-bold text-sky-400 uppercase tracking-wide border-l-2 border-sky-400 pl-2">Cálculo de Caída de Tensión y Cable</h2>
-      
-      <div class="bg-slate-800 p-3 rounded-lg border border-slate-700 space-y-3">
-        <div>
-          <label class="block text-xs text-slate-300 mb-1">Sistema Eléctrico:</label>
-          <select id="dt_sistema" class="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white">
-            <option value="1ph">Monofásico / Bifásico 220V</option>
-            <option value="3ph_220">Trifásico 220V (Delta)</option>
-            <option value="3ph_380">Trifásico 380V (Estrella + Neutro)</option>
+          <label>Tipo de Carga</label>
+          <select id="tipoCarga" onchange="adaptarInputsCarga()">
+            <option value="ac">Aire Acondicionado</option>
+            <option value="refri">Refrigeradora / Congeladora</option>
+            <option value="ilu">Circuito de Iluminación</option>
+            <option value="tomo">Circuito de Tomacorrientes</option>
+            <option value="bomba">Bomba de Agua / Motor</option>
+            <option value="otro">Otra Carga Especial</option>
           </select>
         </div>
-
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block text-xs text-slate-300 mb-1">Potencia (kW):</label>
-            <input type="number" step="0.1" id="dt_potencia" value="5" class="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white">
-          </div>
-          <div>
-            <label class="block text-xs text-slate-300 mb-1">Distancia (m):</label>
-            <input type="number" id="dt_distancia" value="35" class="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white">
-          </div>
-        </div>
-
         <div>
-          <label class="block text-xs text-slate-300 mb-1">Tipo de Cable / Uso:</label>
-          <select id="dt_cable_tipo" class="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white">
-            <option value="ls0h">LSOH / N2XH (Concurrencia Pública / Obligatorio)</option>
-            <option value="thhn">THHN / THWN-2 (Uso General Ducto)</option>
-            <option value="tw70">TW70 / NH-80 (Residencial Convencional)</option>
+          <label id="lblPotencia">Potencia (W o BTU)</label>
+          <input type="number" id="potenciaCarga" placeholder="Ej. 12000 (BTU) o 1500 (W)">
+        </div>
+        <div>
+          <label>Ciclo de Trabajo Diario (Horas/Día)</label>
+          <input type="number" id="horasUso" value="8" min="1" max="24">
+        </div>
+        <div>
+          <label>Factor de Operación Compresor/Motor (%)</label>
+          <input type="number" id="factorUso" value="40" placeholder="% de tiempo activo">
+        </div>
+      </div>
+      <button onclick="agregarCarga()" class="w-full py-2 bg-emerald-600 hover:bg-emerald-500 font-bold rounded-lg">Añadir Carga al Cuadro</button>
+    </div>
+
+    <!-- TABLA DE CARGAS -->
+    <div class="card overflow-x-auto">
+      <h3 class="text-md font-bold text-slate-300 mb-3">Cuadro de Cargas Aprobadas</h3>
+      <table class="w-full text-left text-sm">
+        <thead class="bg-slate-800 text-slate-400 border-b border-slate-700">
+          <tr>
+            <th class="p-2">Carga</th>
+            <th class="p-2">Potencia (W)</th>
+            <th class="p-2">Inominal (220V)</th>
+            <th class="p-2">Uso Diario</th>
+            <th class="p-2">Consumo kWh/Mes</th>
+            <th class="p-2">Acción</th>
+          </tr>
+        </thead>
+        <tbody id="tablaCargas" class="divide-y divide-slate-700">
+          <!-- Filas dinámicas -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CÁLCULO DE CONSUMO EN SOLES -->
+    <div class="card grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+      <div>
+        <label>Tarifa Eléctrica (S/ por kWh)</label>
+        <input type="number" id="tarifaKwh" value="0.82" step="0.01" oninput="calcularTotalCuadro()">
+      </div>
+      <div>
+        <p class="text-xs text-slate-400">Consumo Total Estimado:</p>
+        <p id="totalKwh" class="text-2xl font-bold text-amber-400">0.00 kWh/mes</p>
+      </div>
+      <div>
+        <p class="text-xs text-slate-400">Costo Mensual Estimado (Perú):</p>
+        <p id="totalSoles" class="text-2xl font-bold text-emerald-400">S/ 0.00</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECCIÓN 2: CALCULADORA DE CIRCUITO E INDIVIDUALIZACIÓN -->
+  <div id="sec-proteccion" class="hidden space-y-6">
+    <div class="card">
+      <h2 class="text-lg font-bold text-amber-400 mb-4">2. Dimensionamiento de Cable, ITM e ID por Distancia</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div>
+          <label>Potencia Total del Circuito (Watts)</label>
+          <input type="number" id="circPotencia" value="2500">
+        </div>
+        <div>
+          <label>Longitud de Conductor (Metros)</label>
+          <input type="number" id="circDistancia" value="25">
+        </div>
+        <div>
+          <label>Tipo de Carga Critica</label>
+          <select id="circTipo">
+            <option value="ac">Aire Acondicionado (Inverter/Conv)</option>
+            <option value="refri">Refrigeradora / Congeladora</option>
+            <option value="motor">Bomba de Agua / Motor Trifásico</option>
+            <option value="general">Uso General / Tomacorrientes</option>
           </select>
         </div>
-
-        <button onclick="calcularCaidaTension()" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-2 rounded text-sm transition">CALCULAR CABLE Y CAÍDA</button>
       </div>
+      <button onclick="calcularCircuitoCompleto()" class="w-full py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg">Calcular Sección y Protecciones</button>
+    </div>
 
-      <div id="res_caida" class="hidden bg-slate-800 p-4 rounded-lg border border-sky-500/30 space-y-2 text-xs">
-        <h3 class="font-bold text-sky-400 text-sm border-b border-slate-700 pb-1">RESULTADOS TÉCNICOS CNE</h3>
-        <p>Corriente de Diseño ($I_d$): <span id="out_id" class="font-mono font-bold text-white">0 A</span></p>
-        <p>Sección Conductor Seleccionado: <span id="out_seccion" class="font-mono font-bold text-emerald-400 text-sm">0 mm²</span></p>
-        <p>Caída de Tensión ($\Delta V$): <span id="out_dv_volts" class="font-mono font-bold text-amber-400">0 V</span> (<span id="out_dv_porc" class="font-bold">0%</span>)</p>
-        <p>Estado Normativo (&le; 2.5%): <span id="out_estado_norma" class="font-bold px-2 py-0.5 rounded text-[10px]">-</span></p>
-        <p>ITM Recomendado: <span id="out_itm_calc" class="font-bold text-sky-300">-</span></p>
-      </div>
-    </section>
-
-    <!-- SECCIÓN 3: MOTORES TRIFÁSICOS -->
-    <section id="sec-motores" class="space-y-4 hidden">
-      <h2 class="text-sm font-bold text-sky-400 uppercase tracking-wide border-l-2 border-sky-400 pl-2">Protección de Motores Trifásicos</h2>
-      
-      <div class="bg-slate-800 p-3 rounded-lg border border-slate-700 space-y-3">
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block text-xs text-slate-300 mb-1">Potencia Motor (HP):</label>
-            <input type="number" id="mot_hp" value="10" class="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white">
-          </div>
-          <div>
-            <label class="block text-xs text-slate-300 mb-1">Tensión (V):</label>
-            <select id="mot_v" class="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white">
-              <option value="220">220V Trifásico</option>
-              <option value="380">380V Trifásico</option>
-            </select>
-          </div>
+    <!-- RESULTADO TÉCNICO DETALLADO -->
+    <div id="resCircuito" class="hidden card space-y-4 border-l-4 border-amber-500">
+      <h3 class="text-md font-bold text-amber-400">Especificación Técnica del Circuito</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+        <div class="bg-slate-900 p-3 rounded-lg">
+          <p class="font-semibold text-slate-300">Conductor Recomendado:</p>
+          <p id="resConductor" class="text-lg font-bold text-emerald-400">-</p>
+          <p id="resCaida" class="text-xs text-slate-400 mt-1">-</p>
         </div>
-
-        <button onclick="calcularMotor()" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-2 rounded text-sm transition">CALCULAR MOTOR</button>
+        <div class="bg-slate-900 p-3 rounded-lg">
+          <p class="font-semibold text-slate-300">Interruptor Termomagnético (ITM):</p>
+          <p id="resITM" class="text-lg font-bold text-amber-400">-</p>
+          <p id="resCurva" class="text-xs text-slate-400 mt-1">-</p>
+        </div>
+        <div class="bg-slate-900 p-3 rounded-lg col-span-1 md:col-span-2">
+          <p class="font-semibold text-slate-300">Interruptor Diferencial Recomendado (ID):</p>
+          <p id="resID" class="text-lg font-bold text-cyan-400">-</p>
+          <p id="resIDRazon" class="text-xs text-slate-400 mt-1">-</p>
+        </div>
       </div>
+    </div>
+  </div>
 
-      <div id="res_motores" class="hidden bg-slate-800 p-4 rounded-lg border border-sky-500/30 space-y-2 text-xs">
-        <h3 class="font-bold text-sky-400 text-sm border-b border-slate-700 pb-1">ESQUEMA DE PROTECCIÓN Y ARRANQUE</h3>
-        <p>Corriente Nominal Motor ($I_n$): <span id="out_mot_in" class="font-mono font-bold text-amber-400">0 A</span></p>
-        <p>Esquema de Arranque Recomendado: <span id="out_mot_arranque" class="font-bold text-sky-300">-</span></p>
-        <p>Rango Guardamotor: <span id="out_mot_guardamotor" class="font-mono font-bold text-emerald-400">-</span></p>
-        <p>Contactor Categoría AC-3: <span id="out_mot_contactor" class="font-bold text-white">-</span></p>
+  <!-- SECCIÓN 3: LUMINOTECNIA POR AMBIENTES -->
+  <div id="sec-iluminacion" class="hidden space-y-6">
+    <div class="card">
+      <h2 class="text-lg font-bold text-amber-400 mb-4">3. Cálculo Luminotécnico & Selección de Kelvin</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div>
+          <label>Selecciona el Ambiente</label>
+          <select id="lumiAmbiente" onchange="actualizarLuxRecomendado()">
+            <option value="300">Cocina (300 Lux)</option>
+            <option value="500">Estudio / Oficina (500 Lux)</option>
+            <option value="150">Dormitorio (150 Lux)</option>
+            <option value="200">Sala / Comedor (200 Lux)</option>
+            <option value="100">Pasadizo / Cochera (100 Lux)</option>
+            <option value="500">Taller / Cuarto de Trabajo (500 Lux)</option>
+          </select>
+        </div>
+        <div>
+          <label>Largo del Ambiente (m)</label>
+          <input type="number" id="lumiLargo" value="4">
+        </div>
+        <div>
+          <label>Ancho del Ambiente (m)</label>
+          <input type="number" id="lumiAncho" value="3">
+        </div>
       </div>
-    </section>
+      <button onclick="calcularLuminotecnia()" class="w-full py-2 bg-emerald-600 hover:bg-emerald-500 font-bold rounded-lg">Calcular Lúmenes y Puntos de Luz</button>
+    </div>
 
-  </main>
+    <div id="resLumi" class="hidden card space-y-3 border-l-4 border-emerald-500">
+      <h3 class="text-md font-bold text-emerald-400">Recomendación Luminotécnica CNE/IEC</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+        <div class="bg-slate-900 p-3 rounded-lg">
+          <p class="text-slate-400">Lúmenes Totales Necesarios:</p>
+          <p id="resLumenes" class="text-xl font-bold text-amber-400">0 lm</p>
+        </div>
+        <div class="bg-slate-900 p-3 rounded-lg">
+          <p class="text-slate-400">Lámparas LED Sugeridas (10W - 900lm c/u):</p>
+          <p id="resCantLamparas" class="text-xl font-bold text-emerald-400">0 Lámparas</p>
+        </div>
+        <div class="bg-slate-900 p-3 rounded-lg">
+          <p class="text-slate-400">Temperatura de Color Recomendada:</p>
+          <p id="resKelvin" class="text-xl font-bold text-cyan-400">0 K</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <!-- Lógica JavaScript del Aplicativo -->
+  <!-- SECCIÓN 4: ESQUEMAS Y ASISTENCIA TÉCNICA -->
+  <div id="sec-asistente" class="hidden space-y-6">
+    <div class="card space-y-4">
+      <h2 class="text-lg font-bold text-amber-400">4. Guías de Conexión & Reglas de Selectividad</h2>
+      
+      <div class="space-y-3">
+        <details class="bg-slate-900 p-3 rounded-lg cursor-pointer">
+          <summary class="font-bold text-slate-200">🔄 Conexión de Circuito de Conmutación (3 Vías)</summary>
+          <p class="text-xs text-slate-400 mt-2">
+            Permite controlar un punto de luz desde dos lugares distintos.<br>
+            • **Fase L1:** Se conecta al borne central del primer conmutador.<br>
+            • **Puentes:** Dos conductores unen los bornes laterales entre ambos conmutadores.<br>
+            • **Retorno:** Sale del borne central del segundo conmutador hacia la luminaria.<br>
+            • **Fase L2 / Neutro:** Directo a la luminaria.
+          </p>
+        </details>
+
+        <details class="bg-slate-900 p-3 rounded-lg cursor-pointer">
+          <summary class="font-bold text-slate-200">🚰 Esquema para Bomba de Agua Automatizada</summary>
+          <p class="text-xs text-slate-400 mt-2">
+            • Requiere ITM de **Curva D** (por pico de arranque).<br>
+            • Control mediante **Contactor + Relé Térmico** en combinación con interruptor de nivel flotador en la cisterna/tanque.<br>
+            • El circuito de mando del flotador debe operar a baja tensión o mediante línea protegida con ID de 30mA.
+          </p>
+        </details>
+
+        <details class="bg-slate-900 p-3 rounded-lg cursor-pointer">
+          <summary class="font-bold text-slate-200">⚠️ Regla de Selectividad CNE (Aguas Abajo vs Aguas Arriba)</summary>
+          <p class="text-xs text-slate-400 mt-2">
+            • **ITM Principal (Llave General):** Debe ser de mayor capacidad que las llaves derivadas (Ej. 32A o 40A, Curva C).<br>
+            • **ITM Secundario (Circuito):** Debe ser menor para despejar la falla en la zona afectada sin apagar la casa entera (Ej. 16A o 20A).<br>
+            • **Diferencial (ID):** La capacidad nominal en Amperios del ID debe ser **igual o superior** al ITM que lo antecede.
+          </p>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- LÓGICA JAVASCRIPT COMPLETA -->
   <script>
-    // Tab switching
-    function cambiarTab(tab) {
-      ['domiciliario', 'caida', 'motores'].forEach(t => {
-        document.getElementById(`sec-${t}`).classList.add('hidden');
-        document.getElementById(`tab-${t}`).className = "flex-1 py-3 text-center font-bold text-slate-400 border-b-2 border-transparent";
+    let cargas = [];
+
+    function showTab(tabName) {
+      document.getElementById('sec-cargas').classList.add('hidden');
+      document.getElementById('sec-proteccion').classList.add('hidden');
+      document.getElementById('sec-iluminacion').classList.add('hidden');
+      document.getElementById('sec-asistente').classList.add('hidden');
+
+      document.getElementById('tab-cargas').className = "px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-lg text-sm";
+      document.getElementById('tab-proteccion').className = "px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-lg text-sm";
+      document.getElementById('tab-iluminacion').className = "px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-lg text-sm";
+      document.getElementById('tab-asistente').className = "px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-lg text-sm";
+
+      document.getElementById('sec-' + tabName).classList.remove('hidden');
+      document.getElementById('tab-' + tabName).className = "px-4 py-2 bg-amber-500 text-slate-950 font-bold rounded-lg text-sm";
+    }
+
+    function adaptarInputsCarga() {
+      const tipo = document.getElementById('tipoCarga').value;
+      const lbl = document.getElementById('lblPotencia');
+      if(tipo === 'ac') {
+        lbl.innerText = "Potencia en BTU (ej. 12000)";
+      } else {
+        lbl.innerText = "Potencia en Watts (W)";
+      }
+    }
+
+    function agregarCarga() {
+      const tipo = document.getElementById('tipoCarga').value;
+      let valPotencia = parseFloat(document.getElementById('potenciaCarga').value) || 0;
+      const horas = parseFloat(document.getElementById('horasUso').value) || 0;
+      const factor = (parseFloat(document.getElementById('factorUso').value) || 100) / 100;
+
+      if(valPotencia <= 0) return alert("Por favor ingresa una potencia válida");
+
+      // Convertir BTU a Watts si es Aire Acondicionado (1 BTU ≈ 0.293 W térmicos / ~0.09W eléctricos aprox con SEER medio)
+      let watts = valPotencia;
+      if(tipo === 'ac') {
+        watts = valPotencia * 0.32; // Estimado eléctrico aproximado para aire acondicionado
+      }
+
+      const inom = watts / (220 * 0.9); // Corriente nominal en 220V
+      const kwhMes = (watts * (horas * factor) * 30) / 1000;
+
+      cargas.push({
+        nombre: document.getElementById('tipoCarga').options[document.getElementById('tipoCarga').selectedIndex].text,
+        watts: watts.toFixed(0),
+        inom: inom.toFixed(1),
+        horas: horas,
+        kwhMes: kwhMes.toFixed(2)
       });
-      document.getElementById(`sec-${tab}`).classList.remove('hidden');
-      document.getElementById(`tab-${tab}`).className = "flex-1 py-3 text-center font-bold border-b-2 border-sky-400 text-sky-400";
+
+      renderTablaCargas();
     }
 
-    // 1. Cálculo Domiciliario
-    function calcularDomiciliario() {
-      const area = parseFloat(document.getElementById('dom_area').value) || 0;
-      const cocina = parseFloat(document.getElementById('dom_cocina').value) || 0;
-      const therma = parseFloat(document.getElementById('dom_therma').value) || 0;
-      const bombaHp = parseFloat(document.getElementById('dom_bomba').value) || 0;
-      const bombaW = bombaHp * 746;
+    function renderTablaCargas() {
+      const tbody = document.getElementById('tablaCargas');
+      tbody.innerHTML = '';
 
-      // CNE 050-200: Base 2500W primeros 90m2 + 1000W por cada 90m2 adic.
-      let cargaArea = 2500;
-      if (area > 90) {
-        cargaArea += Math.ceil((area - 90) / 90) * 1000;
-      }
+      cargas.forEach((c, index) => {
+        tbody.innerHTML += `
+          <tr>
+            <td class="p-2">${c.nombre}</td>
+            <td class="p-2">${c.watts} W</td>
+            <td class="p-2">${c.inom} A</td>
+            <td class="p-2">${c.horas} hrs/día</td>
+            <td class="p-2 text-amber-400 font-bold">${c.kwhMes} kWh</td>
+            <td class="p-2"><button onclick="eliminarCarga(${index})" class="text-red-400 hover:underline">X</button></td>
+          </tr>
+        `;
+      });
 
-      const ci = cargaArea + cocina + therma + bombaW;
-
-      // Factores de demanda CNE
-      let mdArea = 0;
-      if (cargaArea <= 1500) mdArea = cargaArea;
-      else mdArea = 1500 + (cargaArea - 1500) * 0.5;
-
-      const md = mdArea + cocina + therma + bombaW;
-      const inDom = md / (220 * 0.9);
-
-      document.getElementById('out_ci').innerText = `${ci.toFixed(0)} W`;
-      document.getElementById('out_md').innerText = `${md.toFixed(0)} W`;
-      document.getElementById('out_in_dom').innerText = `${inDom.toFixed(1)} A`;
-
-      if (md <= 10000) {
-        document.getElementById('out_suministro').innerText = "Monofásico BT5B (220V)";
-      } else {
-        document.getElementById('out_suministro').innerText = "Trifásico (220V o 380V)";
-      }
-
-      // ITM Acometida
-      const itms = [16, 20, 25, 32, 40, 50, 63];
-      const itmSugerido = itms.find(i => i >= inDom * 1.15) || 63;
-      document.getElementById('out_itm_dom').innerText = `2x${itmSugerido}A (Curva C, Icu >= 6kA)`;
-
-      document.getElementById('res_domiciliario').classList.remove('hidden');
+      calcularTotalCuadro();
     }
 
-    // 2. Cálculo Caída de Tensión
-    function calcularCaidaTension() {
-      const sistema = document.getElementById('dt_sistema').value;
-      const pKw = parseFloat(document.getElementById('dt_potencia').value) || 0;
-      const L = parseFloat(document.getElementById('dt_distancia').value) || 0;
-
-      const pW = pKw * 1000;
-      let V = 220;
-      let k = 2; // Monofasico
-
-      if (sistema === '3ph_220') { V = 220; k = Math.sqrt(3); }
-      if (sistema === '3ph_380') { V = 380; k = Math.sqrt(3); }
-
-      const In = pW / (k * V * 0.9);
-      const Id = In * 1.25;
-
-      // Tabla Simplificada de Conductores
-      const cables = [
-        { s: 2.5, amp: 25, r: 7.41 },
-        { s: 4.0, amp: 35, r: 4.61 },
-        { s: 6.0, amp: 45, r: 3.08 },
-        { s: 10.0, amp: 60, r: 1.83 },
-        { s: 16.0, amp: 80, r: 1.15 },
-        { s: 25.0, amp: 105, r: 0.727 }
-      ];
-
-      // Seleccionar por ampacidad
-      let cableSel = cables.find(c => c.amp >= Id) || cables[cables.length - 1];
-
-      // Verificar Caída de Tensión
-      const rho = 0.0218; // 90C Cobre
-      let dvVolts = (k * L * Id * rho * 0.9) / cableSel.s;
-      let dvPorc = (dvVolts / V) * 100;
-
-      // Recalcular si excede el 2.5%
-      while (dvPorc > 2.5 && cableSel.s < 25) {
-        let idx = cables.findIndex(c => c.s === cableSel.s);
-        if (idx < cables.length - 1) {
-          cableSel = cables[idx + 1];
-          dvVolts = (k * L * Id * rho * 0.9) / cableSel.s;
-          dvPorc = (dvVolts / V) * 100;
-        } else break;
-      }
-
-      document.getElementById('out_id').innerText = `${Id.toFixed(1)} A`;
-      document.getElementById('out_seccion').innerText = `${cableSel.s} mm²`;
-      document.getElementById('out_dv_volts').innerText = `${dvVolts.toFixed(2)} V`;
-      document.getElementById('out_dv_porc').innerText = `${dvPorc.toFixed(2)}%`;
-
-      const elEstado = document.getElementById('out_estado_norma');
-      if (dvPorc <= 2.5) {
-        elEstado.innerText = "CUMPLE CNE (<= 2.5%)";
-        elEstado.className = "font-bold px-2 py-0.5 rounded text-[10px] bg-emerald-600 text-white";
-      } else {
-        elEstado.innerText = "EXCEDE LÍMITE (Aumentar Calibre)";
-        elEstado.className = "font-bold px-2 py-0.5 rounded text-[10px] bg-red-600 text-white";
-      }
-
-      const itmVal = [16, 20, 25, 32, 40, 50, 63, 80, 100].find(i => i >= Id) || 100;
-      document.getElementById('out_itm_calc').innerText = `${itmVal}A Curva C`;
-
-      document.getElementById('res_caida').classList.remove('hidden');
+    function eliminarCarga(i) {
+      cargas.splice(i, 1);
+      renderTablaCargas();
     }
 
-    // 3. Cálculo de Motores
-    function calcularMotor() {
-      const hp = parseFloat(document.getElementById('mot_hp').value) || 0;
-      const V = parseFloat(document.getElementById('mot_v').value);
-      const pW = hp * 746;
+    function calcularTotalCuadro() {
+      const tarifa = parseFloat(document.getElementById('tarifaKwh').value) || 0;
+      let totalKwh = cargas.reduce((acc, c) => acc + parseFloat(c.kwhMes), 0);
+      let totalSoles = totalKwh * tarifa;
 
-      const In = pW / (Math.sqrt(3) * V * 0.85 * 0.88);
+      document.getElementById('totalKwh').innerText = totalKwh.toFixed(2) + " kWh/mes";
+      document.getElementById('totalSoles').innerText = "S/ " + totalSoles.toFixed(2);
+    }
 
-      document.getElementById('out_mot_in').innerText = `${In.toFixed(1)} A`;
+    function calcularCircuitoCompleto() {
+      const p = parseFloat(document.getElementById('circPotencia').value) || 0;
+      const d = parseFloat(document.getElementById('circDistancia').value) || 0;
+      const tipo = document.getElementById('circTipo').value;
 
-      if (hp <= 5.5) {
-        document.getElementById('out_mot_arranque').innerText = "Directo (DOL)";
-        document.getElementById('out_mot_guardamotor').innerText = `Ajuste (${(In*0.9).toFixed(1)}A - ${(In*1.15).toFixed(1)}A)`;
-        document.getElementById('out_mot_contactor').innerText = `AC-3 para ${In.toFixed(1)}A`;
-      } else if (hp <= 25) {
-        document.getElementById('out_mot_arranque').innerText = "Estrella - Triángulo (Y-Δ)";
-        document.getElementById('out_mot_guardamotor').innerText = `Ajuste (${(In*0.58*0.9).toFixed(1)}A - ${(In*0.58*1.15).toFixed(1)}A)`;
-        document.getElementById('out_mot_contactor').innerText = `KM1/KM2: ${(In*0.58).toFixed(1)}A | KM3: ${(In*0.33).toFixed(1)}A`;
-      } else {
-        document.getElementById('out_mot_arranque').innerText = "Arrancador Suave / VFD";
-        document.getElementById('out_mot_guardamotor').innerText = `Protección Digital VFD`;
-        document.getElementById('out_mot_contactor').innerText = `AC-3 para ${In.toFixed(1)}A`;
+      if(p <= 0 || d <= 0) return alert("Ingresa potencia y distancia válidas");
+
+      const i = p / (220 * 0.9);
+
+      // Tabla mm² y AWG
+      let mm2 = 2.5;
+      let awg = "14 AWG";
+      let itm = 16;
+      let curva = "Curva C (General)";
+      let idTipo = "ID Clase AC / A Standard (30mA)";
+      let idRazon = "Protección diferencial estándar contra contactos directos e indirectos.";
+
+      if(i > 15 && i <= 20) { mm2 = 4.0; awg = "12 AWG"; itm = 20; }
+      else if(i > 20 && i <= 28) { mm2 = 6.0; awg = "10 AWG"; itm = 25; }
+      else if(i > 28) { mm2 = 10.0; awg = "8 AWG"; itm = 40; }
+
+      // Ajustes por caída de tensión ΔV = (2 * L * I) / (56 * S)
+      const caidaV = (2 * d * i) / (56 * mm2);
+      const porcentajeCaida = (caidaV / 220) * 100;
+
+      if(porcentajeCaida > 2.5) {
+        mm2 = mm2 * 1.5;
+        if(mm2 <= 4) awg = "12 AWG";
+        else if(mm2 <= 6) awg = "10 AWG";
+        else awg = "8 AWG";
       }
 
-      document.getElementById('res_motores').classList.remove('hidden');
+      // Ajustes específicos por tipo de carga
+      if(tipo === 'ac') {
+        curva = "Curva D (Picos de arranque de compresor)";
+        idTipo = "ID Superinmunizado (Clase A-SI / F)";
+        idRazon = "Evita disparos en falso por fugas capacitivas de alta frecuencia del Inverter.";
+      } else if(tipo === 'refri') {
+        curva = "Curva C o D";
+        idTipo = "ID Autorreactivable / Rearmable (30mA)";
+        idRazon = "Si ocurre una falla transitoria de red, se rearma solo hasta 3 veces para evitar pérdida de alimentos.";
+      } else if(tipo === 'motor') {
+        curva = "Curva D (Motores Inductivos)";
+        idTipo = "ID Clase A / Superinmunizado";
+        idRazon = "Soporta transitorios de conmutación de bombas de agua.";
+      }
+
+      document.getElementById('resConductor').innerText = `${mm2.toFixed(1)} mm² (Equivalente aproximado: ${awg})`;
+      document.getElementById('resCaida').innerText = `Caida de tensión estimada: ${caidaV.toFixed(2)}V (${porcentajeCaida.toFixed(1)}% de 220V)`;
+      document.getElementById('resITM').innerText = `${itm}A - 2 polos`;
+      document.getElementById('resCurva').innerText = `Tipo de Disparo: ${curva}`;
+      document.getElementById('resID').innerText = idTipo;
+      document.getElementById('resIDRazon').innerText = idRazon;
+
+      document.getElementById('resCircuito').classList.remove('hidden');
+    }
+
+    function calcularLuminotecnia() {
+      const lux = parseFloat(document.getElementById('lumiAmbiente').value);
+      const largo = parseFloat(document.getElementById('lumiLargo').value) || 0;
+      const ancho = parseFloat(document.getElementById('lumiAncho').value) || 0;
+
+      const area = largo * ancho;
+      const lumenes = area * lux;
+      const cantLamparas = Math.ceil(lumenes / 900); // Promedio lámpara LED 10W (900lm)
+
+      let kelvin = "2700K - 3000K (Luz Cálida)";
+      if(lux >= 300) kelvin = "4000K - 6500K (Luz Neutra / Fría de Trabajo)";
+
+      document.getElementById('resLumenes').innerText = `${lumenes.toFixed(0)} lm (${area.toFixed(1)} m²)`;
+      document.getElementById('resCantLamparas').innerText = `${cantLamparas} Puntos LED (10W)`;
+      document.getElementById('resKelvin').innerText = kelvin;
+
+      document.getElementById('resLumi').classList.remove('hidden');
     }
   </script>
 </body>
