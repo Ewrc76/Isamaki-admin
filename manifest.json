@@ -2,20 +2,20 @@
   "name": "Isamaki Admin Pro",
   "short_name": "Isamaki Pro",
   "description": "Asistente Financiero, Costeo de Recetas y Control de Mermas para Isamaki Sushi",
-  "start_url": "./index.html",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#e11d48",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "./Isa.jpg",
+      "src": "https://raw.githubusercontent.com/Ewrc76/Isamaki-admin/main/Isa.jpg",
       "sizes": "192x192",
       "type": "image/jpeg",
       "purpose": "any maskable"
     },
     {
-      "src": "./Isa.jpg",
+      "src": "https://raw.githubusercontent.com/Ewrc76/Isamaki-admin/main/Isa.jpg",
       "sizes": "512x512",
       "type": "image/jpeg",
       "purpose": "any maskable"
