@@ -3,409 +3,756 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CNE Expert Pro - Asistente Eléctrico</title>
+  <title>Isamaki Admin Pro - Asistente Integral Gastronómico</title>
   <link rel="manifest" href="manifest.json">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { background-color: #0f172a; color: #f8fafc; font-family: system-ui, sans-serif; }
-    .card { background: #1e293b; border: 1px solid #334155; border-radius: 0.75rem; padding: 1.25rem; }
-    input, select { background: #0f172a; border: 1px solid #475569; color: #f8fafc; padding: 0.5rem; border-radius: 0.375rem; width: 100%; }
-    label { font-size: 0.875rem; color: #94a3b8; font-weight: 600; display: block; margin-bottom: 0.25rem; }
+    body { background-color: #0f172a; color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 0.875rem; padding: 1.25rem; }
+    input, select { background: #0f172a; border: 1px solid #475569; color: #f8fafc; padding: 0.5rem; border-radius: 0.5rem; width: 100%; font-size: 0.875rem; }
+    label { font-size: 0.8125rem; color: #94a3b8; font-weight: 600; display: block; margin-bottom: 0.25rem; }
   </style>
 </head>
-<body class="p-4 max-w-5xl mx-auto">
+<body class="p-3 md:p-6 max-w-6xl mx-auto pb-20">
 
-  <!-- ENCABEZADO -->
-  <header class="flex items-center justify-between pb-6 border-b border-slate-700 mb-6">
+  <!-- ENCABEZADO ISAMAKI -->
+  <header class="flex items-center justify-between pb-4 border-b border-slate-700 mb-6">
     <div class="flex items-center gap-3">
-      <div class="bg-amber-500 p-3 rounded-xl text-slate-950 font-bold text-xl">⚡</div>
+      <div class="bg-rose-600 p-3 rounded-2xl text-white font-black text-2xl shadow-lg shadow-rose-900/40">
+        🍣
+      </div>
       <div>
-        <h1 class="text-2xl font-bold text-amber-400">CNE Expert Pro</h1>
-        <p class="text-xs text-slate-400">Asistente Técnico Eléctrico según CNE Perú & IEC</p>
+        <h1 class="text-2xl font-black tracking-tight text-rose-500">ISAMAKI <span class="text-xs px-2 py-0.5 bg-rose-950 text-rose-300 border border-rose-800 rounded-full font-semibold">ADMIN PRO v2.0</span></h1>
+        <p class="text-xs text-slate-400">Asistente de Costos, Sueldos, Facturas, Mermas y Utilidades</p>
       </div>
     </div>
-    <div class="text-right text-xs text-slate-400">
-      <span>Red: 220V Bifásica / Trifásica</span><br>
-      <span class="text-emerald-400">● Modo Offline Activo</span>
+    <div class="text-right text-xs text-slate-400 hidden sm:block">
+      <span class="text-emerald-400 font-bold">● Sistema Empresarial Activo</span><br>
+      <span>Moneda: Soles (S/) Perú</span>
     </div>
   </header>
 
-  <!-- NAVEGACIÓN POR PESTAÑAS -->
+  <!-- PANEL DE RECOMENDACIONES DEL ASISTENTE INTELIGENTE -->
+  <div class="card mb-6 bg-slate-900/90 border-l-4 border-rose-500">
+    <div class="flex items-center justify-between mb-2">
+      <h2 class="text-sm font-bold text-rose-400 flex items-center gap-2">
+        <span>🤖</span> Asistente Inteligente Isamaki (Recomendaciones en Tiempo Real)
+      </h2>
+      <button onclick="generarRecomendaciones()" class="text-xs text-slate-400 underline hover:text-rose-300">Actualizar Diagnóstico</button>
+    </div>
+    <div id="boxRecomendaciones" class="space-y-1 text-xs text-slate-300">
+      <p class="text-slate-400 italic">Cargando análisis de la empresa...</p>
+    </div>
+  </div>
+
+  <!-- NAVEGACIÓN PRINCIPAL -->
   <div class="flex gap-2 border-b border-slate-700 mb-6 overflow-x-auto pb-2">
-    <button onclick="showTab('cargas')" id="tab-cargas" class="px-4 py-2 bg-amber-500 text-slate-950 font-bold rounded-lg text-sm">Cargas & Cuadro CNE</button>
-    <button onclick="showTab('proteccion')" id="tab-proteccion" class="px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-lg text-sm">Calculadora de Circuito</button>
-    <button onclick="showTab('iluminacion')" id="tab-iluminacion" class="px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-lg text-sm">Luminotecnia</button>
-    <button onclick="showTab('asistente')" id="tab-asistente" class="px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-lg text-sm">Esquemas & Guías</button>
+    <button onclick="showTab('insumos')" id="tab-insumos" class="px-4 py-2 bg-rose-600 text-white font-bold rounded-xl text-sm whitespace-nowrap shadow">🥑 1. Insumos</button>
+    <button onclick="showTab('personal')" id="tab-personal" class="px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-xl text-sm whitespace-nowrap">👥 2. Personal y Sueldos</button>
+    <button onclick="showTab('recetas')" id="tab-recetas" class="px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-xl text-sm whitespace-nowrap">🍣 3. Productos / Recetas</button>
+    <button onclick="showTab('compras')" id="tab-compras" class="px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-xl text-sm whitespace-nowrap">🧾 4. Compras y Facturas</button>
+    <button onclick="showTab('mermas')" id="tab-mermas" class="px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-xl text-sm whitespace-nowrap">📉 5. Mermas</button>
+    <button onclick="showTab('balance')" id="tab-balance" class="px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-xl text-sm whitespace-nowrap">📊 6. Utilidad y Metas</button>
   </div>
 
-  <!-- SECCIÓN 1: CUADRO DE CARGAS Y CONSUMO MONETARIO -->
-  <div id="sec-cargas" class="space-y-6">
+  <!-- PESTAÑA 1: CATÁLOGO DE INSUMOS -->
+  <div id="sec-insumos" class="space-y-6">
     <div class="card">
-      <h2 class="text-lg font-bold text-amber-400 mb-4">1. Registro de Cargas Residenciales / Comerciales</h2>
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-        <div>
-          <label>Tipo de Carga</label>
-          <select id="tipoCarga" onchange="adaptarInputsCarga()">
-            <option value="ac">Aire Acondicionado</option>
-            <option value="refri">Refrigeradora / Congeladora</option>
-            <option value="ilu">Circuito de Iluminación</option>
-            <option value="tomo">Circuito de Tomacorrientes</option>
-            <option value="bomba">Bomba de Agua / Motor</option>
-            <option value="otro">Otra Carga Especial</option>
-          </select>
-        </div>
-        <div>
-          <label id="lblPotencia">Potencia (W o BTU)</label>
-          <input type="number" id="potenciaCarga" placeholder="Ej. 12000 (BTU) o 1500 (W)">
-        </div>
-        <div>
-          <label>Ciclo de Trabajo Diario (Horas/Día)</label>
-          <input type="number" id="horasUso" value="8" min="1" max="24">
-        </div>
-        <div>
-          <label>Factor de Operación Compresor/Motor (%)</label>
-          <input type="number" id="factorUso" value="40" placeholder="% de tiempo activo">
-        </div>
-      </div>
-      <button onclick="agregarCarga()" class="w-full py-2 bg-emerald-600 hover:bg-emerald-500 font-bold rounded-lg">Añadir Carga al Cuadro</button>
-    </div>
-
-    <!-- TABLA DE CARGAS -->
-    <div class="card overflow-x-auto">
-      <h3 class="text-md font-bold text-slate-300 mb-3">Cuadro de Cargas Aprobadas</h3>
-      <table class="w-full text-left text-sm">
-        <thead class="bg-slate-800 text-slate-400 border-b border-slate-700">
-          <tr>
-            <th class="p-2">Carga</th>
-            <th class="p-2">Potencia (W)</th>
-            <th class="p-2">Inominal (220V)</th>
-            <th class="p-2">Uso Diario</th>
-            <th class="p-2">Consumo kWh/Mes</th>
-            <th class="p-2">Acción</th>
-          </tr>
-        </thead>
-        <tbody id="tablaCargas" class="divide-y divide-slate-700">
-          <!-- Filas dinámicas -->
-        </tbody>
-      </table>
-    </div>
-
-    <!-- CÁLCULO DE CONSUMO EN SOLES -->
-    <div class="card grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-      <div>
-        <label>Tarifa Eléctrica (S/ por kWh)</label>
-        <input type="number" id="tarifaKwh" value="0.82" step="0.01" oninput="calcularTotalCuadro()">
-      </div>
-      <div>
-        <p class="text-xs text-slate-400">Consumo Total Estimado:</p>
-        <p id="totalKwh" class="text-2xl font-bold text-amber-400">0.00 kWh/mes</p>
-      </div>
-      <div>
-        <p class="text-xs text-slate-400">Costo Mensual Estimado (Perú):</p>
-        <p id="totalSoles" class="text-2xl font-bold text-emerald-400">S/ 0.00</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECCIÓN 2: CALCULADORA DE CIRCUITO E INDIVIDUALIZACIÓN -->
-  <div id="sec-proteccion" class="hidden space-y-6">
-    <div class="card">
-      <h2 class="text-lg font-bold text-amber-400 mb-4">2. Dimensionamiento de Cable, ITM e ID por Distancia</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-        <div>
-          <label>Potencia Total del Circuito (Watts)</label>
-          <input type="number" id="circPotencia" value="2500">
-        </div>
-        <div>
-          <label>Longitud de Conductor (Metros)</label>
-          <input type="number" id="circDistancia" value="25">
-        </div>
-        <div>
-          <label>Tipo de Carga Critica</label>
-          <select id="circTipo">
-            <option value="ac">Aire Acondicionado (Inverter/Conv)</option>
-            <option value="refri">Refrigeradora / Congeladora</option>
-            <option value="motor">Bomba de Agua / Motor Trifásico</option>
-            <option value="general">Uso General / Tomacorrientes</option>
-          </select>
-        </div>
-      </div>
-      <button onclick="calcularCircuitoCompleto()" class="w-full py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg">Calcular Sección y Protecciones</button>
-    </div>
-
-    <!-- RESULTADO TÉCNICO DETALLADO -->
-    <div id="resCircuito" class="hidden card space-y-4 border-l-4 border-amber-500">
-      <h3 class="text-md font-bold text-amber-400">Especificación Técnica del Circuito</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-        <div class="bg-slate-900 p-3 rounded-lg">
-          <p class="font-semibold text-slate-300">Conductor Recomendado:</p>
-          <p id="resConductor" class="text-lg font-bold text-emerald-400">-</p>
-          <p id="resCaida" class="text-xs text-slate-400 mt-1">-</p>
-        </div>
-        <div class="bg-slate-900 p-3 rounded-lg">
-          <p class="font-semibold text-slate-300">Interruptor Termomagnético (ITM):</p>
-          <p id="resITM" class="text-lg font-bold text-amber-400">-</p>
-          <p id="resCurva" class="text-xs text-slate-400 mt-1">-</p>
-        </div>
-        <div class="bg-slate-900 p-3 rounded-lg col-span-1 md:col-span-2">
-          <p class="font-semibold text-slate-300">Interruptor Diferencial Recomendado (ID):</p>
-          <p id="resID" class="text-lg font-bold text-cyan-400">-</p>
-          <p id="resIDRazon" class="text-xs text-slate-400 mt-1">-</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECCIÓN 3: LUMINOTECNIA POR AMBIENTES -->
-  <div id="sec-iluminacion" class="hidden space-y-6">
-    <div class="card">
-      <h2 class="text-lg font-bold text-amber-400 mb-4">3. Cálculo Luminotécnico & Selección de Kelvin</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-        <div>
-          <label>Selecciona el Ambiente</label>
-          <select id="lumiAmbiente" onchange="actualizarLuxRecomendado()">
-            <option value="300">Cocina (300 Lux)</option>
-            <option value="500">Estudio / Oficina (500 Lux)</option>
-            <option value="150">Dormitorio (150 Lux)</option>
-            <option value="200">Sala / Comedor (200 Lux)</option>
-            <option value="100">Pasadizo / Cochera (100 Lux)</option>
-            <option value="500">Taller / Cuarto de Trabajo (500 Lux)</option>
-          </select>
-        </div>
-        <div>
-          <label>Largo del Ambiente (m)</label>
-          <input type="number" id="lumiLargo" value="4">
-        </div>
-        <div>
-          <label>Ancho del Ambiente (m)</label>
-          <input type="number" id="lumiAncho" value="3">
-        </div>
-      </div>
-      <button onclick="calcularLuminotecnia()" class="w-full py-2 bg-emerald-600 hover:bg-emerald-500 font-bold rounded-lg">Calcular Lúmenes y Puntos de Luz</button>
-    </div>
-
-    <div id="resLumi" class="hidden card space-y-3 border-l-4 border-emerald-500">
-      <h3 class="text-md font-bold text-emerald-400">Recomendación Luminotécnica CNE/IEC</h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-        <div class="bg-slate-900 p-3 rounded-lg">
-          <p class="text-slate-400">Lúmenes Totales Necesarios:</p>
-          <p id="resLumenes" class="text-xl font-bold text-amber-400">0 lm</p>
-        </div>
-        <div class="bg-slate-900 p-3 rounded-lg">
-          <p class="text-slate-400">Lámparas LED Sugeridas (10W - 900lm c/u):</p>
-          <p id="resCantLamparas" class="text-xl font-bold text-emerald-400">0 Lámparas</p>
-        </div>
-        <div class="bg-slate-900 p-3 rounded-lg">
-          <p class="text-slate-400">Temperatura de Color Recomendada:</p>
-          <p id="resKelvin" class="text-xl font-bold text-cyan-400">0 K</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECCIÓN 4: ESQUEMAS Y ASISTENCIA TÉCNICA -->
-  <div id="sec-asistente" class="hidden space-y-6">
-    <div class="card space-y-4">
-      <h2 class="text-lg font-bold text-amber-400">4. Guías de Conexión & Reglas de Selectividad</h2>
+      <h2 class="text-lg font-bold text-rose-400 mb-2">1. Catálogo de Insumos</h2>
+      <p class="text-xs text-slate-400 mb-4">Ingresa insumos de mercado con su precio de compra y porcentaje de merma.</p>
       
-      <div class="space-y-3">
-        <details class="bg-slate-900 p-3 rounded-lg cursor-pointer">
-          <summary class="font-bold text-slate-200">🔄 Conexión de Circuito de Conmutación (3 Vías)</summary>
-          <p class="text-xs text-slate-400 mt-2">
-            Permite controlar un punto de luz desde dos lugares distintos.<br>
-            • **Fase L1:** Se conecta al borne central del primer conmutador.<br>
-            • **Puentes:** Dos conductores unen los bornes laterales entre ambos conmutadores.<br>
-            • **Retorno:** Sale del borne central del segundo conmutador hacia la luminaria.<br>
-            • **Fase L2 / Neutro:** Directo a la luminaria.
-          </p>
-        </details>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4">
+        <div>
+          <label>Insumo</label>
+          <input type="text" id="insCatNombre" placeholder="Ej. Salmón Fresco">
+        </div>
+        <div>
+          <label>Unidad</label>
+          <select id="insCatUnidad">
+            <option value="Kg">Kilogramo (Kg)</option>
+            <option value="Gramos">Gramos (g)</option>
+            <option value="Litros">Litro (L)</option>
+            <option value="Unidades">Unidad (Paquete/Caja)</option>
+          </select>
+        </div>
+        <div>
+          <label>Costo Compra (S/)</label>
+          <input type="number" id="insCatPrecio" placeholder="Ej. 65.00" step="0.10">
+        </div>
+        <div>
+          <label>% Merma Estimada</label>
+          <input type="number" id="insCatMerma" value="0" placeholder="Ej. 18%">
+        </div>
+      </div>
+      <button onclick="guardarInsumoCatalogo()" class="w-full py-2.5 bg-rose-600 hover:bg-rose-500 font-bold text-white rounded-xl text-sm transition">
+        + Guardar Insumo en Catálogo
+      </button>
+    </div>
 
-        <details class="bg-slate-900 p-3 rounded-lg cursor-pointer">
-          <summary class="font-bold text-slate-200">🚰 Esquema para Bomba de Agua Automatizada</summary>
-          <p class="text-xs text-slate-400 mt-2">
-            • Requiere ITM de **Curva D** (por pico de arranque).<br>
-            • Control mediante **Contactor + Relé Térmico** en combinación con interruptor de nivel flotador en la cisterna/tanque.<br>
-            • El circuito de mando del flotador debe operar a baja tensión o mediante línea protegida con ID de 30mA.
-          </p>
-        </details>
-
-        <details class="bg-slate-900 p-3 rounded-lg cursor-pointer">
-          <summary class="font-bold text-slate-200">⚠️ Regla de Selectividad CNE (Aguas Abajo vs Aguas Arriba)</summary>
-          <p class="text-xs text-slate-400 mt-2">
-            • **ITM Principal (Llave General):** Debe ser de mayor capacidad que las llaves derivadas (Ej. 32A o 40A, Curva C).<br>
-            • **ITM Secundario (Circuito):** Debe ser menor para despejar la falla en la zona afectada sin apagar la casa entera (Ej. 16A o 20A).<br>
-            • **Diferencial (ID):** La capacidad nominal en Amperios del ID debe ser **igual o superior** al ITM que lo antecede.
-          </p>
-        </details>
+    <div class="card">
+      <h3 class="text-sm font-bold text-slate-300 mb-3">Insumos Registrados (<span id="countInsumos">0</span>)</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-slate-800 text-slate-400 border-b border-slate-700 text-xs uppercase">
+            <tr>
+              <th class="p-2">Insumo</th>
+              <th class="p-2">Unidad</th>
+              <th class="p-2">Precio Compra</th>
+              <th class="p-2">% Merma</th>
+              <th class="p-2">Costo Útil (S/)</th>
+              <th class="p-2 text-center">Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tablaCatalogoInsumos" class="divide-y divide-slate-800"></tbody>
+        </table>
       </div>
     </div>
   </div>
 
-  <!-- LÓGICA JAVASCRIPT COMPLETA -->
+  <!-- PESTAÑA 2: PERSONAL Y PLANILLA -->
+  <div id="sec-personal" class="hidden space-y-6">
+    <div class="card">
+      <h2 class="text-lg font-bold text-rose-400 mb-2">2. Gestión de Personal, Familiares y Pagos</h2>
+      <p class="text-xs text-slate-400 mb-4">Registra los sueldos/pagos asignados a las trabajadoras y familiares. Esto se integra a los costos fijos del negocio.</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div>
+          <label>Nombre de la Trabajadora / Familiar</label>
+          <input type="text" id="persNombre" placeholder="Ej. María (Hermana / Chef)">
+        </div>
+        <div>
+          <label>Rol / Función</label>
+          <input type="text" id="persRol" placeholder="Ej. Sushera / Armado">
+        </div>
+        <div>
+          <label>Pago / Sueldo Mensual (S/)</label>
+          <input type="number" id="persSueldo" placeholder="Ej. 1200.00" step="10">
+        </div>
+      </div>
+      <button onclick="guardarPersonal()" class="w-full py-2.5 bg-rose-600 hover:bg-rose-500 font-bold text-white rounded-xl text-sm">
+        + Registrar Trabajadora / Pago
+      </button>
+    </div>
+
+    <div class="card">
+      <h3 class="text-sm font-bold text-slate-300 mb-3">Planilla del Negocio</h3>
+      <div class="overflow-x-auto mb-4">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-slate-800 text-slate-400 border-b border-slate-700 text-xs uppercase">
+            <tr>
+              <th class="p-2">Nombre</th>
+              <th class="p-2">Rol</th>
+              <th class="p-2">Sueldo S/</th>
+              <th class="p-2 text-center">Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tablaPersonal" class="divide-y divide-slate-800"></tbody>
+        </table>
+      </div>
+      <div class="pt-3 border-t border-slate-700 flex justify-between items-center text-sm">
+        <span class="text-slate-400">Total Planilla Mensual:</span>
+        <span id="totalPlanillaSoles" class="font-bold text-amber-400">S/ 0.00</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PESTAÑA 3: CREACIÓN DE RECETAS CON MANO DE OBRA Y MARGEN -->
+  <div id="sec-recetas" class="hidden space-y-6">
+    <div class="card">
+      <h2 class="text-lg font-bold text-rose-400 mb-2">3. Costeo de Productos / Platos (Makis, Boxes)</h2>
+      <p class="text-xs text-slate-400 mb-4">Arma recetas calculando insumos, empaques, mano de obra estimada y utilidad objetivo de la empresa.</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4">
+        <div>
+          <label>Nombre del Producto</label>
+          <input type="text" id="recetaNombre" placeholder="Ej. Acevichado Roll (10 Cortes)">
+        </div>
+        <div>
+          <label>Utilidad Empresa (%)</label>
+          <input type="number" id="recetaMargen" value="35" min="5" max="80">
+        </div>
+        <div>
+          <label>Empaque + Desposables (S/)</label>
+          <input type="number" id="recetaEmpaque" placeholder="Ej. 2.50" value="2.50" step="0.10">
+        </div>
+        <div>
+          <label>Descuento/Promoción (S/)</label>
+          <input type="number" id="recetaDescuento" placeholder="Ej. 0.00" value="0.00" step="0.50">
+        </div>
+      </div>
+
+      <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-3 mb-4">
+        <h3 class="text-xs font-bold text-rose-300 uppercase">Añadir Insumo a la Receta</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label>Insumo del Catálogo</label>
+            <select id="selectInsumoReceta">
+              <option value="">-- Elige un insumo --</option>
+            </select>
+          </div>
+          <div>
+            <label>Cantidad Utilizada</label>
+            <input type="number" id="cantInsumoReceta" placeholder="Ej. 80 (gramos/unid)" step="0.01">
+          </div>
+          <div class="flex items-end">
+            <button onclick="agregarInsumoARecetaActual()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-rose-300 border border-rose-900 font-bold rounded-lg text-sm">
+              + Añadir
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto mb-4">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-slate-800 text-slate-400 border-b border-slate-700 text-xs uppercase">
+            <tr>
+              <th class="p-2">Insumo</th>
+              <th class="p-2">Cantidad</th>
+              <th class="p-2">Costo S/</th>
+              <th class="p-2 text-center">Quitar</th>
+            </tr>
+          </thead>
+          <tbody id="tablaRecetaActual" class="divide-y divide-slate-800"></tbody>
+        </table>
+      </div>
+
+      <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
+        <div>
+          <span class="text-xs text-slate-400">Costo Directo + Empaque:</span>
+          <p id="resCostProd" class="text-xl font-bold text-amber-400">S/ 0.00</p>
+        </div>
+        <div>
+          <span class="text-xs text-slate-400">Precio Venta Sugerido (PVP):</span>
+          <p id="resPVP" class="text-2xl font-black text-emerald-400">S/ 0.00</p>
+        </div>
+        <button onclick="guardarProductoCreado()" class="py-3 bg-emerald-600 hover:bg-emerald-500 font-bold text-white rounded-xl text-sm shadow">
+          💾 Guardar Producto en Menú
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="text-sm font-bold text-slate-300 mb-3">Menú Registrado</h3>
+      <div id="listaProductosMenu" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+    </div>
+  </div>
+
+  <!-- PESTAÑA 4: COMPRAS, FACTURAS Y DESCUENTOS -->
+  <div id="sec-compras" class="hidden space-y-6">
+    <div class="card">
+      <h2 class="text-lg font-bold text-rose-400 mb-2">4. Compras, Facturas y Gastos Operativos</h2>
+      <p class="text-xs text-slate-400 mb-4">Registra compras generales, facturas de proveedores o gastos varios del negocio.</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4">
+        <div>
+          <label>Detalle / Proveedor</label>
+          <input type="text" id="compraDetalle" placeholder="Ej. Factura Makro / Mercado">
+        </div>
+        <div>
+          <label>Tipo Documento</label>
+          <select id="compraTipo">
+            <option value="Factura/Boleta">Factura / Boleta</option>
+            <option value="Sin Comprobante">Sin Comprobante</option>
+            <option value="Servicios/Luz/Gas">Servicios (Luz/Gas/Internet)</option>
+          </select>
+        </div>
+        <div>
+          <label>Monto Total (S/)</label>
+          <input type="number" id="compraMonto" placeholder="Ej. 350.00" step="0.50">
+        </div>
+        <div>
+          <label>Fecha</label>
+          <input type="date" id="compraFecha">
+        </div>
+      </div>
+      <button onclick="registrarCompraGeneral()" class="w-full py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl text-sm">
+        + Registrar Gasto / Compra
+      </button>
+    </div>
+
+    <div class="card">
+      <h3 class="text-sm font-bold text-slate-300 mb-3">Historial de Compras y Gastos</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-slate-800 text-slate-400 border-b border-slate-700 text-xs uppercase">
+            <tr>
+              <th class="p-2">Fecha</th>
+              <th class="p-2">Detalle</th>
+              <th class="p-2">Tipo</th>
+              <th class="p-2">Monto S/</th>
+              <th class="p-2 text-center">Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tablaHistorialCompras" class="divide-y divide-slate-800"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- PESTAÑA 5: MERMAS -->
+  <div id="sec-mermas" class="hidden space-y-6">
+    <div class="card">
+      <h2 class="text-lg font-bold text-rose-400 mb-2">5. Control de Mermas y Desperdicios</h2>
+      <p class="text-xs text-slate-400 mb-4">Mide las pérdidas en dinero por insumos descartados.</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div>
+          <label>Insumo Mermado</label>
+          <input type="text" id="mermaInsumo" placeholder="Ej. 200g Palta u Arroz">
+        </div>
+        <div>
+          <label>Costo Pérdida (S/)</label>
+          <input type="number" id="mermaCosto" placeholder="Ej. 6.50" step="0.50">
+        </div>
+        <div>
+          <label>Motivo</label>
+          <input type="text" id="mermaMotivo" placeholder="Ej. Vencimiento / Exceso de corte">
+        </div>
+      </div>
+      <button onclick="registrarMerma()" class="w-full py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl text-sm">
+        Registrar Pérdida
+      </button>
+    </div>
+
+    <div class="card">
+      <h3 class="text-sm font-bold text-slate-300 mb-3">Registro de Mermas</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-slate-800 text-slate-400 border-b border-slate-700 text-xs uppercase">
+            <tr>
+              <th class="p-2">Fecha</th>
+              <th class="p-2">Insumo</th>
+              <th class="p-2">Motivo</th>
+              <th class="p-2">Pérdida S/</th>
+              <th class="p-2 text-center">Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tablaMermas" class="divide-y divide-slate-800"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- PESTAÑA 6: FINANZAS Y UTILIDAD REAL -->
+  <div id="sec-balance" class="hidden space-y-6">
+    <div class="card">
+      <h2 class="text-lg font-bold text-rose-400 mb-2">6. Punto de Equilibrio y Utilidad Neta de Isamaki</h2>
+      <p class="text-xs text-slate-400 mb-4">Calcula la meta de ventas necesaria considerando sueldos, servicios y la utilidad neta de la empresa.</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div>
+          <label>Gastos Fijos Varios (Alquiler, Luz, Gas) S/</label>
+          <input type="number" id="finGastosServicios" value="500">
+        </div>
+        <div>
+          <label>Precio Promedio Plato / Roll (S/)</label>
+          <input type="number" id="finPrecioProm" value="26">
+        </div>
+        <div>
+          <label>Costo Promedio Producción (S/)</label>
+          <input type="number" id="finCostoProm" value="11">
+        </div>
+      </div>
+      <button onclick="calcularFinanzas()" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 font-bold text-white rounded-xl text-sm">
+        Calcular Diagnóstico Financiero
+      </button>
+    </div>
+
+    <div id="boxFinanzasRes" class="hidden card bg-slate-900 border-l-4 border-emerald-500 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <span class="text-xs text-slate-400">Gastos Fijos Totales (+ Planilla):</span>
+        <p id="resGastosTotalesFijos" class="text-xl font-bold text-slate-200">S/ 0.00</p>
+      </div>
+      <div>
+        <span class="text-xs text-slate-400">Meta Venta Mensual:</span>
+        <p id="resMetaMes" class="text-2xl font-black text-rose-400">0 platos</p>
+      </div>
+      <div>
+        <span class="text-xs text-slate-400">Meta Diaria (26 días):</span>
+        <p id="resMetaDia" class="text-2xl font-black text-amber-400">0 platos/día</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- LÓGICA JAVASCRIPT INTEGRAL -->
   <script>
-    let cargas = [];
+    let catalogoInsumos = JSON.parse(localStorage.getItem('isamaki_insumos')) || [];
+    let personal = JSON.parse(localStorage.getItem('isamaki_personal')) || [];
+    let productosMenu = JSON.parse(localStorage.getItem('isamaki_productos')) || [];
+    let historialCompras = JSON.parse(localStorage.getItem('isamaki_compras')) || [];
+    let mermas = JSON.parse(localStorage.getItem('isamaki_mermas')) || [];
+
+    let recetaActualInsumos = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('compraFecha').valueAsDate = new Date();
+      renderCatalogoInsumos();
+      renderPersonal();
+      renderProductosMenu();
+      renderHistorialCompras();
+      renderMermas();
+      generarRecomendaciones();
+    });
 
     function showTab(tabName) {
-      document.getElementById('sec-cargas').classList.add('hidden');
-      document.getElementById('sec-proteccion').classList.add('hidden');
-      document.getElementById('sec-iluminacion').classList.add('hidden');
-      document.getElementById('sec-asistente').classList.add('hidden');
-
-      document.getElementById('tab-cargas').className = "px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-lg text-sm";
-      document.getElementById('tab-proteccion').className = "px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-lg text-sm";
-      document.getElementById('tab-iluminacion').className = "px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-lg text-sm";
-      document.getElementById('tab-asistente').className = "px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-lg text-sm";
-
-      document.getElementById('sec-' + tabName).classList.remove('hidden');
-      document.getElementById('tab-' + tabName).className = "px-4 py-2 bg-amber-500 text-slate-950 font-bold rounded-lg text-sm";
-    }
-
-    function adaptarInputsCarga() {
-      const tipo = document.getElementById('tipoCarga').value;
-      const lbl = document.getElementById('lblPotencia');
-      if(tipo === 'ac') {
-        lbl.innerText = "Potencia en BTU (ej. 12000)";
-      } else {
-        lbl.innerText = "Potencia en Watts (W)";
-      }
-    }
-
-    function agregarCarga() {
-      const tipo = document.getElementById('tipoCarga').value;
-      let valPotencia = parseFloat(document.getElementById('potenciaCarga').value) || 0;
-      const horas = parseFloat(document.getElementById('horasUso').value) || 0;
-      const factor = (parseFloat(document.getElementById('factorUso').value) || 100) / 100;
-
-      if(valPotencia <= 0) return alert("Por favor ingresa una potencia válida");
-
-      // Convertir BTU a Watts si es Aire Acondicionado (1 BTU ≈ 0.293 W térmicos / ~0.09W eléctricos aprox con SEER medio)
-      let watts = valPotencia;
-      if(tipo === 'ac') {
-        watts = valPotencia * 0.32; // Estimado eléctrico aproximado para aire acondicionado
-      }
-
-      const inom = watts / (220 * 0.9); // Corriente nominal en 220V
-      const kwhMes = (watts * (horas * factor) * 30) / 1000;
-
-      cargas.push({
-        nombre: document.getElementById('tipoCarga').options[document.getElementById('tipoCarga').selectedIndex].text,
-        watts: watts.toFixed(0),
-        inom: inom.toFixed(1),
-        horas: horas,
-        kwhMes: kwhMes.toFixed(2)
+      const tabs = ['insumos', 'personal', 'recetas', 'compras', 'mermas', 'balance'];
+      tabs.forEach(t => {
+        document.getElementById('sec-' + t).classList.add('hidden');
+        document.getElementById('tab-' + t).className = "px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-xl text-sm whitespace-nowrap";
       });
 
-      renderTablaCargas();
+      document.getElementById('sec-' + tabName).classList.remove('hidden');
+      document.getElementById('tab-' + tabName).className = "px-4 py-2 bg-rose-600 text-white font-bold rounded-xl text-sm whitespace-nowrap shadow";
     }
 
-    function renderTablaCargas() {
-      const tbody = document.getElementById('tablaCargas');
-      tbody.innerHTML = '';
+    // RECOMENDACIONES INTELIGENTES
+    function generarRecomendaciones() {
+      const box = document.getElementById('boxRecomendaciones');
+      box.innerHTML = '';
+      let alertas = [];
 
-      cargas.forEach((c, index) => {
+      const totalMermas = mermas.reduce((sum, m) => sum + m.costo, 0);
+      const totalPlanilla = personal.reduce((sum, p) => sum + p.sueldo, 0);
+
+      if(catalogoInsumos.length === 0) {
+        alertas.push("📌 *Inicia registrando tus insumos* en la pestaña 1 para poder calcular tus costos reales.");
+      }
+      if(personal.length === 0) {
+        alertas.push("💡 *Consejo:* Registra los sueldos de las trabajadoras o tu propio pago en la pestaña 2 para asegurar tu ganancia personal.");
+      }
+      if(totalMermas > 50) {
+        alertas.push(`⚠️ *Alerta Mermas:* Tienes registradas S/ ${totalMermas.toFixed(2)} en mermas. Revisa el almacenamiento del salmón o palta.`);
+      }
+      if(productosMenu.length > 0) {
+        alertas.push(`✅ Tienes *${productosMenu.length} productos costeados* activamente en tu menú con margen de utilidad.`);
+      } else {
+        alertas.push("🍣 No has guardado productos en el menú aún. Crea el primer Maki en la pestaña 3.");
+      }
+
+      alertas.forEach(msg => {
+        box.innerHTML += `<p>• ${msg}</p>`;
+      });
+    }
+
+    // 1. INSUMOS
+    function guardarInsumoCatalogo() {
+      const nombre = document.getElementById('insCatNombre').value.trim();
+      const unidad = document.getElementById('insCatUnidad').value;
+      const precio = parseFloat(document.getElementById('insCatPrecio').value) || 0;
+      const merma = parseFloat(document.getElementById('insCatMerma').value) || 0;
+
+      if(!nombre || precio <= 0) return alert("Ingresa datos válidos para el insumo");
+
+      const costoUtil = merma > 0 ? precio / (1 - (merma / 100)) : precio;
+      catalogoInsumos.push({ id: Date.now(), nombre, unidad, precio, merma, costoUtil });
+      localStorage.setItem('isamaki_insumos', JSON.stringify(catalogoInsumos));
+
+      document.getElementById('insCatNombre').value = '';
+      document.getElementById('insCatPrecio').value = '';
+      renderCatalogoInsumos();
+      generarRecomendaciones();
+    }
+
+    function renderCatalogoInsumos() {
+      const tbody = document.getElementById('tablaCatalogoInsumos');
+      const selectReceta = document.getElementById('selectInsumoReceta');
+      tbody.innerHTML = '';
+      selectReceta.innerHTML = '<option value="">-- Elige un insumo --</option>';
+
+      document.getElementById('countInsumos').innerText = catalogoInsumos.length;
+
+      catalogoInsumos.forEach((ins, index) => {
         tbody.innerHTML += `
           <tr>
-            <td class="p-2">${c.nombre}</td>
-            <td class="p-2">${c.watts} W</td>
-            <td class="p-2">${c.inom} A</td>
-            <td class="p-2">${c.horas} hrs/día</td>
-            <td class="p-2 text-amber-400 font-bold">${c.kwhMes} kWh</td>
-            <td class="p-2"><button onclick="eliminarCarga(${index})" class="text-red-400 hover:underline">X</button></td>
+            <td class="p-2 font-semibold text-slate-200">${ins.nombre}</td>
+            <td class="p-2 text-slate-400">${ins.unidad}</td>
+            <td class="p-2 font-bold text-slate-200">S/ ${ins.precio.toFixed(2)}</td>
+            <td class="p-2 text-rose-400">${ins.merma}%</td>
+            <td class="p-2 font-bold text-amber-400">S/ ${ins.costoUtil.toFixed(2)}</td>
+            <td class="p-2 text-center"><button onclick="eliminarInsumo(${index})" class="text-rose-400 font-bold">X</button></td>
+          </tr>
+        `;
+        selectReceta.innerHTML += `<option value="${ins.id}">${ins.nombre} (${ins.unidad})</option>`;
+      });
+    }
+
+    function eliminarInsumo(i) {
+      catalogoInsumos.splice(i, 1);
+      localStorage.setItem('isamaki_insumos', JSON.stringify(catalogoInsumos));
+      renderCatalogoInsumos();
+    }
+
+    // 2. PERSONAL
+    function guardarPersonal() {
+      const nombre = document.getElementById('persNombre').value.trim();
+      const rol = document.getElementById('persRol').value.trim();
+      const sueldo = parseFloat(document.getElementById('persSueldo').value) || 0;
+
+      if(!nombre || sueldo <= 0) return alert("Ingresa un nombre y sueldo válido");
+
+      personal.push({ id: Date.now(), nombre, rol, sueldo });
+      localStorage.setItem('isamaki_personal', JSON.stringify(personal));
+
+      document.getElementById('persNombre').value = '';
+      document.getElementById('persRol').value = '';
+      document.getElementById('persSueldo').value = '';
+
+      renderPersonal();
+      generarRecomendaciones();
+    }
+
+    function renderPersonal() {
+      const tbody = document.getElementById('tablaPersonal');
+      tbody.innerHTML = '';
+      let total = 0;
+
+      personal.forEach((p, index) => {
+        total += p.sueldo;
+        tbody.innerHTML += `
+          <tr>
+            <td class="p-2 font-semibold text-slate-200">${p.nombre}</td>
+            <td class="p-2 text-slate-400">${p.rol}</td>
+            <td class="p-2 font-bold text-amber-400">S/ ${p.sueldo.toFixed(2)}</td>
+            <td class="p-2 text-center"><button onclick="eliminarPersonal(${index})" class="text-rose-400 font-bold">X</button></td>
           </tr>
         `;
       });
 
-      calcularTotalCuadro();
+      document.getElementById('totalPlanillaSoles').innerText = `S/ ${total.toFixed(2)}`;
     }
 
-    function eliminarCarga(i) {
-      cargas.splice(i, 1);
-      renderTablaCargas();
+    function eliminarPersonal(i) {
+      personal.splice(i, 1);
+      localStorage.setItem('isamaki_personal', JSON.stringify(personal));
+      renderPersonal();
     }
 
-    function calcularTotalCuadro() {
-      const tarifa = parseFloat(document.getElementById('tarifaKwh').value) || 0;
-      let totalKwh = cargas.reduce((acc, c) => acc + parseFloat(c.kwhMes), 0);
-      let totalSoles = totalKwh * tarifa;
+    // 3. RECETAS
+    function agregarInsumoARecetaActual() {
+      const selectId = document.getElementById('selectInsumoReceta').value;
+      const cant = parseFloat(document.getElementById('cantInsumoReceta').value) || 0;
 
-      document.getElementById('totalKwh').innerText = totalKwh.toFixed(2) + " kWh/mes";
-      document.getElementById('totalSoles').innerText = "S/ " + totalSoles.toFixed(2);
-    }
+      if(!selectId || cant <= 0) return alert("Selecciona un insumo e ingresa la cantidad usada");
 
-    function calcularCircuitoCompleto() {
-      const p = parseFloat(document.getElementById('circPotencia').value) || 0;
-      const d = parseFloat(document.getElementById('circDistancia').value) || 0;
-      const tipo = document.getElementById('circTipo').value;
+      const insObj = catalogoInsumos.find(i => i.id == selectId);
+      if(!insObj) return;
 
-      if(p <= 0 || d <= 0) return alert("Ingresa potencia y distancia válidas");
-
-      const i = p / (220 * 0.9);
-
-      // Tabla mm² y AWG
-      let mm2 = 2.5;
-      let awg = "14 AWG";
-      let itm = 16;
-      let curva = "Curva C (General)";
-      let idTipo = "ID Clase AC / A Standard (30mA)";
-      let idRazon = "Protección diferencial estándar contra contactos directos e indirectos.";
-
-      if(i > 15 && i <= 20) { mm2 = 4.0; awg = "12 AWG"; itm = 20; }
-      else if(i > 20 && i <= 28) { mm2 = 6.0; awg = "10 AWG"; itm = 25; }
-      else if(i > 28) { mm2 = 10.0; awg = "8 AWG"; itm = 40; }
-
-      // Ajustes por caída de tensión ΔV = (2 * L * I) / (56 * S)
-      const caidaV = (2 * d * i) / (56 * mm2);
-      const porcentajeCaida = (caidaV / 220) * 100;
-
-      if(porcentajeCaida > 2.5) {
-        mm2 = mm2 * 1.5;
-        if(mm2 <= 4) awg = "12 AWG";
-        else if(mm2 <= 6) awg = "10 AWG";
-        else awg = "8 AWG";
+      let costoCalculado = 0;
+      if(insObj.unidad === "Kg" || insObj.unidad === "Litros") {
+        costoCalculado = (insObj.costoUtil / 1000) * cant;
+      } else {
+        costoCalculado = insObj.costoUtil * cant;
       }
 
-      // Ajustes específicos por tipo de carga
-      if(tipo === 'ac') {
-        curva = "Curva D (Picos de arranque de compresor)";
-        idTipo = "ID Superinmunizado (Clase A-SI / F)";
-        idRazon = "Evita disparos en falso por fugas capacitivas de alta frecuencia del Inverter.";
-      } else if(tipo === 'refri') {
-        curva = "Curva C o D";
-        idTipo = "ID Autorreactivable / Rearmable (30mA)";
-        idRazon = "Si ocurre una falla transitoria de red, se rearma solo hasta 3 veces para evitar pérdida de alimentos.";
-      } else if(tipo === 'motor') {
-        curva = "Curva D (Motores Inductivos)";
-        idTipo = "ID Clase A / Superinmunizado";
-        idRazon = "Soporta transitorios de conmutación de bombas de agua.";
-      }
+      recetaActualInsumos.push({
+        nombre: insObj.nombre,
+        cant,
+        unidad: insObj.unidad,
+        costo: costoCalculado
+      });
 
-      document.getElementById('resConductor').innerText = `${mm2.toFixed(1)} mm² (Equivalente aproximado: ${awg})`;
-      document.getElementById('resCaida').innerText = `Caida de tensión estimada: ${caidaV.toFixed(2)}V (${porcentajeCaida.toFixed(1)}% de 220V)`;
-      document.getElementById('resITM').innerText = `${itm}A - 2 polos`;
-      document.getElementById('resCurva').innerText = `Tipo de Disparo: ${curva}`;
-      document.getElementById('resID').innerText = idTipo;
-      document.getElementById('resIDRazon').innerText = idRazon;
-
-      document.getElementById('resCircuito').classList.remove('hidden');
+      document.getElementById('cantInsumoReceta').value = '';
+      renderRecetaActual();
     }
 
-    function calcularLuminotecnia() {
-      const lux = parseFloat(document.getElementById('lumiAmbiente').value);
-      const largo = parseFloat(document.getElementById('lumiLargo').value) || 0;
-      const ancho = parseFloat(document.getElementById('lumiAncho').value) || 0;
+    function renderRecetaActual() {
+      const tbody = document.getElementById('tablaRecetaActual');
+      tbody.innerHTML = '';
+      let totalInsumos = 0;
 
-      const area = largo * ancho;
-      const lumenes = area * lux;
-      const cantLamparas = Math.ceil(lumenes / 900); // Promedio lámpara LED 10W (900lm)
+      recetaActualInsumos.forEach((item, index) => {
+        totalInsumos += item.costo;
+        tbody.innerHTML += `
+          <tr>
+            <td class="p-2 text-slate-200 font-semibold">${item.nombre}</td>
+            <td class="p-2 text-slate-400">${item.cant} ${item.unidad}</td>
+            <td class="p-2 font-bold text-amber-400">S/ ${item.costo.toFixed(2)}</td>
+            <td class="p-2 text-center"><button onclick="quitarInsumoReceta(${index})" class="text-rose-400">X</button></td>
+          </tr>
+        `;
+      });
 
-      let kelvin = "2700K - 3000K (Luz Cálida)";
-      if(lux >= 300) kelvin = "4000K - 6500K (Luz Neutra / Fría de Trabajo)";
+      const empaque = parseFloat(document.getElementById('recetaEmpaque').value) || 0;
+      const descuento = parseFloat(document.getElementById('recetaDescuento').value) || 0;
+      const costoProdTotal = totalInsumos + empaque;
+      const margen = (parseFloat(document.getElementById('recetaMargen').value) || 35) / 100;
+      
+      let pvp = costoProdTotal / (1 - margen);
+      pvp = pvp - descuento;
 
-      document.getElementById('resLumenes').innerText = `${lumenes.toFixed(0)} lm (${area.toFixed(1)} m²)`;
-      document.getElementById('resCantLamparas').innerText = `${cantLamparas} Puntos LED (10W)`;
-      document.getElementById('resKelvin').innerText = kelvin;
+      document.getElementById('resCostProd').innerText = `S/ ${costoProdTotal.toFixed(2)}`;
+      document.getElementById('resPVP').innerText = `S/ ${pvp.toFixed(2)}`;
+    }
 
-      document.getElementById('resLumi').classList.remove('hidden');
+    function quitarInsumoReceta(i) {
+      recetaActualInsumos.splice(i, 1);
+      renderRecetaActual();
+    }
+
+    function guardarProductoCreado() {
+      const nombre = document.getElementById('recetaNombre').value.trim();
+      const empaque = parseFloat(document.getElementById('recetaEmpaque').value) || 0;
+      const margen = parseFloat(document.getElementById('recetaMargen').value) || 35;
+      const descuento = parseFloat(document.getElementById('recetaDescuento').value) || 0;
+
+      if(!nombre || recetaActualInsumos.length === 0) return alert("Completa el nombre y añade insumos");
+
+      let costoInsumos = recetaActualInsumos.reduce((sum, item) => sum + item.costo, 0);
+      let costoTotal = costoInsumos + empaque;
+      let pvp = (costoTotal / (1 - (margen / 100))) - descuento;
+
+      productosMenu.push({
+        id: Date.now(),
+        nombre,
+        costoTotal,
+        pvp,
+        insumosCount: recetaActualInsumos.length
+      });
+
+      localStorage.setItem('isamaki_productos', JSON.stringify(productosMenu));
+
+      recetaActualInsumos = [];
+      document.getElementById('recetaNombre').value = '';
+      renderRecetaActual();
+      renderProductosMenu();
+      generarRecomendaciones();
+    }
+
+    function renderProductosMenu() {
+      const container = document.getElementById('listaProductosMenu');
+      container.innerHTML = '';
+
+      productosMenu.forEach((p, index) => {
+        container.innerHTML += `
+          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex justify-between items-center">
+            <div>
+              <h4 class="font-bold text-slate-200 text-base">${p.nombre}</h4>
+              <p class="text-xs text-slate-400">Ingredientes: ${p.insumosCount}</p>
+              <p class="text-xs text-amber-400 font-semibold mt-1">Costo Total: S/ ${p.costoTotal.toFixed(2)}</p>
+            </div>
+            <div class="text-right">
+              <span class="text-xs text-slate-400">PVP Sugerido</span>
+              <p class="text-xl font-black text-emerald-400">S/ ${p.pvp.toFixed(2)}</p>
+              <button onclick="eliminarProductoMenu(${index})" class="text-xs text-rose-400 underline mt-1">Eliminar</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function eliminarProductoMenu(i) {
+      productosMenu.splice(i, 1);
+      localStorage.setItem('isamaki_productos', JSON.stringify(productosMenu));
+      renderProductosMenu();
+    }
+
+    // 4. COMPRAS Y FACTURAS
+    function registrarCompraGeneral() {
+      const detalle = document.getElementById('compraDetalle').value.trim();
+      const tipo = document.getElementById('compraTipo').value;
+      const monto = parseFloat(document.getElementById('compraMonto').value) || 0;
+      const fecha = document.getElementById('compraFecha').value;
+
+      if(!detalle || monto <= 0) return alert("Ingresa un detalle y monto válido");
+
+      historialCompras.push({ fecha, detalle, tipo, monto });
+      localStorage.setItem('isamaki_compras', JSON.stringify(historialCompras));
+
+      document.getElementById('compraDetalle').value = '';
+      document.getElementById('compraMonto').value = '';
+      renderHistorialCompras();
+    }
+
+    function renderHistorialCompras() {
+      const tbody = document.getElementById('tablaHistorialCompras');
+      tbody.innerHTML = '';
+
+      historialCompras.forEach((c, index) => {
+        tbody.innerHTML += `
+          <tr>
+            <td class="p-2 text-slate-400 text-xs">${c.fecha}</td>
+            <td class="p-2 font-semibold text-slate-200">${c.detalle}</td>
+            <td class="p-2 text-slate-400 text-xs">${c.tipo}</td>
+            <td class="p-2 font-bold text-rose-400">S/ ${c.monto.toFixed(2)}</td>
+            <td class="p-2 text-center"><button onclick="eliminarCompra(${index})" class="text-slate-500 hover:text-rose-400">🗑️</button></td>
+          </tr>
+        `;
+      });
+    }
+
+    function eliminarCompra(i) {
+      historialCompras.splice(i, 1);
+      localStorage.setItem('isamaki_compras', JSON.stringify(historialCompras));
+      renderHistorialCompras();
+    }
+
+    // 5. MERMAS
+    function registrarMerma() {
+      const insumo = document.getElementById('mermaInsumo').value.trim();
+      const costo = parseFloat(document.getElementById('mermaCosto').value) || 0;
+      const motivo = document.getElementById('mermaMotivo').value.trim();
+
+      if(!insumo || costo <= 0) return alert("Ingresa insumo y costo de la merma");
+
+      mermas.push({
+        fecha: new Date().toLocaleDateString('es-PE'),
+        insumo,
+        costo,
+        motivo
+      });
+
+      localStorage.setItem('isamaki_mermas', JSON.stringify(mermas));
+
+      document.getElementById('mermaInsumo').value = '';
+      document.getElementById('mermaCosto').value = '';
+      document.getElementById('mermaMotivo').value = '';
+      renderMermas();
+      generarRecomendaciones();
+    }
+
+    function renderMermas() {
+      const tbody = document.getElementById('tablaMermas');
+      tbody.innerHTML = '';
+
+      mermas.forEach((m, index) => {
+        tbody.innerHTML += `
+          <tr>
+            <td class="p-2 text-slate-400 text-xs">${m.fecha}</td>
+            <td class="p-2 font-semibold text-slate-200">${m.insumo}</td>
+            <td class="p-2 text-slate-400 text-xs">${m.motivo}</td>
+            <td class="p-2 font-bold text-rose-400">S/ ${m.costo.toFixed(2)}</td>
+            <td class="p-2 text-center"><button onclick="eliminarMerma(${index})" class="text-slate-500 hover:text-rose-400">🗑️</button></td>
+          </tr>
+        `;
+      });
+    }
+
+    function eliminarMerma(i) {
+      mermas.splice(i, 1);
+      localStorage.setItem('isamaki_mermas', JSON.stringify(mermas));
+      renderMermas();
+    }
+
+    // 6. FINANZAS
+    function calcularFinanzas() {
+      const servicios = parseFloat(document.getElementById('finGastosServicios').value) || 0;
+      const precio = parseFloat(document.getElementById('finPrecioProm').value) || 0;
+      const costo = parseFloat(document.getElementById('finCostoProm').value) || 0;
+
+      const totalPlanilla = personal.reduce((sum, p) => sum + p.sueldo, 0);
+      const gastosFijosTotales = servicios + totalPlanilla;
+
+      const margen = precio - costo;
+      if(margen <= 0) return alert("El precio promedio debe ser superior al costo de producción");
+
+      const metaMes = Math.ceil(gastosFijosTotales / margen);
+      const metaDia = Math.ceil(metaMes / 26);
+
+      document.getElementById('resGastosTotalesFijos').innerText = `S/ ${gastosFijosTotales.toFixed(2)}`;
+      document.getElementById('resMetaMes').innerText = `${metaMes} platos`;
+      document.getElementById('resMetaDia').innerText = `${metaDia} platos/día`;
+
+      document.getElementById('boxFinanzasRes').classList.remove('hidden');
     }
   </script>
 </body>
